@@ -1,7 +1,5 @@
 rootProject.name = "kuberig-dsl-kubernetes"
 
-include("kuberig-dsl-kubernetes-1-14")
-
 include("kuberig-dsl-kubernetes-v1.10.7")
 include("kuberig-dsl-kubernetes-v1.10.8-beta.0")
 include("kuberig-dsl-kubernetes-v1.10.8")
