@@ -1,7 +1,5 @@
 package eu.rigeldev.kuberig.dsl.kubernetes;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.request.GetRequest;
@@ -9,14 +7,12 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class DslProjectsGeneratorTask extends DefaultTask {
@@ -26,28 +22,7 @@ public class DslProjectsGeneratorTask extends DefaultTask {
 
     @TaskAction
     public void generatorDslProjects() throws Exception {
-        Unirest.setObjectMapper(new com.mashape.unirest.http.ObjectMapper() {
-
-            private final com.fasterxml.jackson.databind.ObjectMapper objectMapper = new ObjectMapper();
-
-            @Override
-            public <T> T readValue(String value, Class<T> valueType) {
-                try {
-                    return this.objectMapper.readValue(value, valueType);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-            @Override
-            public String writeValue(Object value) {
-                try {
-                    return this.objectMapper.writeValueAsString(value);
-                } catch (JsonProcessingException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+        UnirestConfigurator.configureUnirest();
 
         final HttpResponse<GitHubTagRef[]> tags = Unirest.get("https://api.github.com/repos/{gitHubOwner}/{gitHubRepo}/git/refs/tags")
                 .routeParam("gitHubOwner", this.gitHubOwner)
@@ -115,14 +90,14 @@ public class DslProjectsGeneratorTask extends DefaultTask {
                             );
                             Files.write(readmeFile.toPath(), readmeLines, StandardCharsets.UTF_8);
 
-                            Path mainBuildGradleKts = Paths.get("build.gradle.kts");
+                            Path settingsGradleKts = Paths.get("settings.gradle.kts");
 
-                            final List<String> mainBuildGradleKtsLines = Files.readAllLines(mainBuildGradleKts, StandardCharsets.UTF_8);
+                            final List<String> settingsGradleKtsLines = Files.readAllLines(settingsGradleKts, StandardCharsets.UTF_8);
 
                             final String lineToAdd = "include(\"" + moduleName + "\")";
 
-                            if (!mainBuildGradleKtsLines.contains(lineToAdd)) {
-                                Files.write(mainBuildGradleKts, lineToAdd.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
+                            if (!settingsGradleKtsLines.contains(lineToAdd)) {
+                                Files.write(settingsGradleKts, lineToAdd.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
                             }
 
                         } else {

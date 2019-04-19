@@ -11,5 +11,9 @@ public class DslProjectsGeneratorPlugin implements Plugin<Project> {
                 task.setGroup("kuberig")
         );
 
+        project.getTasks().register("bintrayRemove", BintrayRemoveTask.class, task ->
+                task.setGroup("kuberig")
+        );
+
     }
 }
