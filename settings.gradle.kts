@@ -104,3 +104,6 @@ include("kuberig-dsl-kubernetes-v1.15.0-alpha.1")
 include("kuberig-dsl-kubernetes-v1.12.8")
 include("kuberig-dsl-kubernetes-v1.12.9-beta.0")
 include("kuberig-dsl-kubernetes-v1.15.0-alpha.2")
+
+include("kuberig-dsl-kubernetes-v1.11.10")
+include("kuberig-dsl-kubernetes-v1.11.11-beta.0")
