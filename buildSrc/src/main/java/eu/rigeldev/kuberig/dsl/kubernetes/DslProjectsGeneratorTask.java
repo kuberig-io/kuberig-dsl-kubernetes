@@ -48,7 +48,12 @@ public class DslProjectsGeneratorTask extends DefaultTask {
                 String moduleName = "kuberig-dsl-kubernetes-" + tagName;
                 File moduleDir = new File(moduleName);
 
-                if (!moduleDir.exists()) {
+                if (!this.isModuleValid(moduleDir)) {
+
+                    this.createDirectoryIfNeeded(moduleDir);
+                    this.createDirectoryIfNeeded(new File(moduleDir, "src"));
+                    this.createDirectoryIfNeeded(new File(moduleDir, "src/main"));
+                    this.createDirectoryIfNeeded(new File(moduleDir, "src/main/resources"));
 
                     final GetRequest getRequest = Unirest.get("https://raw.githubusercontent.com/{gitHubOwner}/{gitHubRepo}/{tagName}/api/openapi-spec/swagger.json")
                             .routeParam("gitHubOwner", this.gitHubOwner)
@@ -63,12 +68,7 @@ public class DslProjectsGeneratorTask extends DefaultTask {
                         if (swaggerJsonText.contains("x-kubernetes-group-version-kind")) {
                             System.out.println(tagName + " => VALID ");
 
-                            moduleDir.mkdir();
-
-                            File mainResources = new File(moduleDir, "src/main/resources");
-                            mainResources.mkdirs();
-
-                            File swaggerJsonFile = new File(mainResources, "swagger.json");
+                            File swaggerJsonFile = new File(moduleDir, "src/main/resources/swagger.json");
                             Files.write(swaggerJsonFile.toPath(), swaggerJsonText.getBytes(StandardCharsets.UTF_8));
 
                             File buildGradleKtsFile = new File(moduleDir, "build.gradle.kts");
@@ -122,6 +122,28 @@ public class DslProjectsGeneratorTask extends DefaultTask {
             }
         }
 
+    }
+
+    private boolean isModuleValid(File moduleDir) {
+        boolean moduleDirectoryExists = moduleDir.exists();
+
+        final File buildFile = new File(moduleDir, "build.gradle.kts");
+
+        boolean validBuildFile = buildFile.exists() && buildFile.length() != 0;
+
+        final File swaggerFile = new File(moduleDir, "src/main/resources/swagger.json");
+
+        boolean validSwaggerFile = swaggerFile.exists() && swaggerFile.length() != 0;
+
+        return moduleDirectoryExists && validBuildFile && validSwaggerFile;
+    }
+
+    private void createDirectoryIfNeeded(File directory) {
+        if (!directory.exists()) {
+            if (!directory.mkdir()) {
+                throw new IllegalStateException("Failed to create directory [" + directory.getAbsolutePath() + "]");
+            }
+        }
     }
 
 }
