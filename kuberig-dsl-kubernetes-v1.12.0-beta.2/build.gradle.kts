@@ -1,7 +1,8 @@
 plugins {
-    id("eu.rigeldev.kuberig.dsl.generator") version "0.0.11"
+    id("eu.rigeldev.kuberig.dsl.generator") 
 }
 
 repositories {
-    jcenter()
+   jcenter()
+   maven("https://dl.bintray.com/teyckmans/rigeldev-oss-maven")
 }

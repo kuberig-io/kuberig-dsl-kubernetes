@@ -7,6 +7,7 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -72,13 +73,7 @@ public class DslProjectsGeneratorTask extends DefaultTask {
                             Files.write(swaggerJsonFile.toPath(), swaggerJsonText.getBytes(StandardCharsets.UTF_8));
 
                             File buildGradleKtsFile = new File(moduleDir, "build.gradle.kts");
-                            List<String> buildGradleKtsLines = Arrays.asList("plugins {",
-                                    "    id(\"eu.rigeldev.kuberig.dsl.generator\") version \""+getProject().getVersion().toString()+"\"",
-                                    "}",
-                                    "",
-                                    "repositories {",
-                                    "    jcenter()",
-                                    "}");
+                            List<String> buildGradleKtsLines = buildGradlektsLines();
                             Files.write(buildGradleKtsFile.toPath(), buildGradleKtsLines);
 
 
@@ -90,15 +85,9 @@ public class DslProjectsGeneratorTask extends DefaultTask {
                             );
                             Files.write(readmeFile.toPath(), readmeLines, StandardCharsets.UTF_8);
 
-                            Path settingsGradleKts = Paths.get("settings.gradle.kts");
 
-                            final List<String> settingsGradleKtsLines = Files.readAllLines(settingsGradleKts, StandardCharsets.UTF_8);
 
-                            final String lineToAdd = "\ninclude(\"" + moduleName + "\")";
-
-                            if (!settingsGradleKtsLines.contains(lineToAdd)) {
-                                Files.write(settingsGradleKts, lineToAdd.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
-                            }
+                            updateRootProjectSettingsGradleKtsLines(moduleName);
 
                         } else {
                             System.out.println(tagName + " => IN-VALID ( does not have x-kubernetes-group-version-kind info )");
@@ -109,19 +98,39 @@ public class DslProjectsGeneratorTask extends DefaultTask {
                 } else {
                     File buildGradleKtsFile = new File(moduleDir, "build.gradle.kts");
 
-                    List<String> buildGradleKtsLines = Arrays.asList("plugins {",
-                            "    id(\"eu.rigeldev.kuberig.dsl.generator\") version \""+getProject().getVersion().toString()+"\"",
-                            "}",
-                            "",
-                            "repositories {",
-                            "    jcenter()",
-                            "}");
+                    List<String> buildGradleKtsLines = buildGradlektsLines();
 
                     Files.write(buildGradleKtsFile.toPath(), buildGradleKtsLines);
+
+                    updateRootProjectSettingsGradleKtsLines(moduleName);
                 }
             }
         }
 
+    }
+
+    private void updateRootProjectSettingsGradleKtsLines(String moduleName) throws IOException {
+        Path settingsGradleKts = Paths.get("settings.gradle.kts");
+
+        final List<String> settingsGradleKtsLines = Files.readAllLines(settingsGradleKts, StandardCharsets.UTF_8);
+
+        final String lineToAdd = "\ninclude(\"" + moduleName + "\")";
+
+        if (!settingsGradleKtsLines.contains(lineToAdd)) {
+            Files.write(settingsGradleKts, lineToAdd.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
+        }
+    }
+
+    private List<String> buildGradlektsLines() {
+        return Arrays.asList("plugins {",
+//                "    id(\"eu.rigeldev.kuberig.dsl.generator\") version \"" + getProject().getVersion().toString() + "\"",
+                "    id(\"eu.rigeldev.kuberig.dsl.generator\") ",
+                "}",
+                "",
+                "repositories {",
+                "   jcenter()",
+                "   maven(\"https://dl.bintray.com/teyckmans/rigeldev-oss-maven\")",
+                "}");
     }
 
     private boolean isModuleValid(File moduleDir) {

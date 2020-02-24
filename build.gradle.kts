@@ -6,6 +6,7 @@ buildscript {
     }
     dependencies {
         classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
+        classpath("eu.rigeldev.kuberig:kuberig-dsl-generator-gradle-plugin:0.0.14")
     }
 }
 
@@ -28,6 +29,15 @@ subprojects {
 
     repositories {
         jcenter()
+        maven("https://dl.bintray.com/teyckmans/rigeldev-oss-maven")
+    }
+
+    configure<JavaPluginConvention> {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.8"
     }
 
     val sourcesJar by tasks.registering(Jar::class) {
@@ -40,7 +50,7 @@ subprojects {
     configure<PublishingExtension> {
 
         publications {
-            register(subProject.name, MavenPublication::class) {
+            register(subProject.name, MavenPublication::class.java) {
                 from(components["java"])
                 artifact(sourcesJar.get())
             }

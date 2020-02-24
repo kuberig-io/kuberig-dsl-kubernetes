@@ -15,5 +15,7 @@ public class DslProjectsGeneratorPlugin implements Plugin<Project> {
                 task.setGroup("kuberig")
         );
 
+        project.getTasks().register("showMissingFromJCenter", ShowMissingFromJCenterTask.class);
+
     }
 }
