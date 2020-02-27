@@ -1,3 +1,5 @@
+[![KubeRig Logo](https://github.com/teyckmans/kuberig/blob/master/docs/images/website_logo_transparent_background.png)](https://github.com/teyckmans/kuberig)
+
 # kuberig-dsl-kubernetes
 
 This project contains the vanilla kubernetes DSL generator projects.
