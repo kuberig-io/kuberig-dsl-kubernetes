@@ -218,3 +218,6 @@
 ./gradlew :kuberig-dsl-kubernetes-v1.18.0-alpha.3:build :kuberig-dsl-kubernetes-v1.18.0-alpha.3:bintrayUpload
 ./gradlew :kuberig-dsl-kubernetes-v1.18.0-alpha.4:build :kuberig-dsl-kubernetes-v1.18.0-alpha.4:bintrayUpload
 ./gradlew :kuberig-dsl-kubernetes-v1.18.0-alpha.5:build :kuberig-dsl-kubernetes-v1.18.0-alpha.5:bintrayUpload
+./gradlew :kuberig-dsl-kubernetes-v1.18.0-beta.0:build :kuberig-dsl-kubernetes-v1.18.0-beta.0:bintrayUpload
+./gradlew :kuberig-dsl-kubernetes-v1.18.0-beta.1:build :kuberig-dsl-kubernetes-v1.18.0-beta.1:bintrayUpload
+./gradlew :kuberig-dsl-kubernetes-v1.19.0-alpha.0:build :kuberig-dsl-kubernetes-v1.19.0-alpha.0:bintrayUpload
