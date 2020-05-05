@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
-        classpath("eu.rigeldev.kuberig:kuberig-dsl-generator-gradle-plugin:0.0.14")
+        classpath("eu.rigeldev.kuberig:kuberig-dsl-generator-gradle-plugin:0.0.21")
     }
 }
 

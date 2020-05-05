@@ -21,6 +21,24 @@ public class DslProjectsGeneratorTask extends DefaultTask {
     private String gitHubOwner = "kubernetes";
     private String gitHubRepo = "kubernetes";
 
+    private final SemVersion startVersion = new SemVersion(1, 14, 10);
+
+    private boolean shouldImportTag(String tagName) {
+        if (tagName.contains("-")) {
+            // -alpha, -beta, -rc
+            return false;
+        } else {
+            final SemVersion tagVersion = SemVersion.fromTagName(tagName);
+
+            if (tagVersion == null) {
+                return false;
+            } else {
+                return tagVersion.isHigher(startVersion);
+            }
+
+        }
+    }
+
     @TaskAction
     public void generatorDslProjects() throws Exception {
         UnirestConfigurator.configureUnirest();
@@ -31,18 +49,10 @@ public class DslProjectsGeneratorTask extends DefaultTask {
                 .header("Accept", "application/vnd.github.v3+json")
                 .asObject(GitHubTagRef[].class);
 
-        boolean passedInitialTag = false;
-
         for (GitHubTagRef tag : tags.getBody()) {
-
-
             final String tagName = tag.getRef().substring("refs/tags/".length());
 
-            if (tagName.equals("v1.10.7")) {
-                passedInitialTag = true;
-            }
-
-            if (passedInitialTag) {
+            if (this.shouldImportTag(tagName)) {
 
                 System.out.println("Generating project for tag " + tagName);
 
