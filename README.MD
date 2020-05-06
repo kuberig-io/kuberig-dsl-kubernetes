@@ -6,9 +6,9 @@ This project contains the vanilla kubernetes DSL generator projects.
 
 ## Details
 
-The modules in this project are auto generated based on the kubernetes/kubernetes repository.
+The sub-projects in this project are auto generated based on the kubernetes/kubernetes repository.
 
-It scans all tags starting from v1.10.7. Which is the first version that contains the /api/openapi-spec/swagger.json file that we depend on for the DSL generation.
+It scans all tags starting from v1.14.10. Which is the lowest version number currently (6-may-2020) supported by Google and Digital Ocean.
 
 You can check the DslProjectsGeneratorTask in the buildSrc for more details.
 
