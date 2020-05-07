@@ -58,7 +58,9 @@ public class ShowMissingFromJCenterTask extends DefaultTask {
         try (BufferedWriter writer = Files.newBufferedWriter(statusFile.toPath())) {
             writer.append("# Dependency Availability");
             writer.newLine();
-            writer.append("|kubernetes version|repositories|bintray package|");
+            writer.append("| kubernetes version | repositories | bintray package |");
+            writer.newLine();
+            writer.append("| ------------------ | ------------ | --------------- |");
             writer.newLine();
 
             final Set<Project> subProjects = this.getProject().getSubprojects();
@@ -69,15 +71,18 @@ public class ShowMissingFromJCenterTask extends DefaultTask {
                         .basicAuth(username, password)
                         .asJson();
 
-                String x = "https://bintray.com/teyckmans/rigeldev-oss-maven/" + subProject.getName();
+                String x = "["+subProject.getName()+"](https://bintray.com/teyckmans/rigeldev-oss-maven/" + subProject.getName() + ")";
                 System.out.println(x);
+
+                final String upstreamVersion = subProject.getName().substring("kuberig-dsl-kubernetes-".length());
+
                 if (jsonNodeHttpResponse.getStatus() == 404) {
                     writer.append("|").append(subProject.getName()).append("|none|").append(x).append("|");
                     writer.newLine();
                 } else {
                     JSONArray linkedToRepos = jsonNodeHttpResponse.getBody().getObject().getJSONArray("linked_to_repos");
                     if (linkedToRepos.length() == 0) {
-                        writer.append("|").append(subProject.getName()).append("|rigeldev-oss-maven|").append(x).append("|");
+                        writer.append("| ").append(upstreamVersion).append(" | rigeldev-oss-maven | ").append(x).append(" |");
                         writer.newLine();
 
                         System.out.println("available in [rigeldev-oss-maven]");
@@ -86,7 +91,7 @@ public class ShowMissingFromJCenterTask extends DefaultTask {
 
                         );
                     } else {
-                        writer.append("|").append(subProject.getName()).append("|rigeldev-oss-maven, jcenter|").append(x).append("|");
+                        writer.append("| ").append(upstreamVersion).append(" | rigeldev-oss-maven, jcenter | ").append(x).append(" |");
                         writer.newLine();
                     }
                 }

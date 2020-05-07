@@ -33,7 +33,7 @@ public class DslProjectsGeneratorTask extends DefaultTask {
             if (tagVersion == null) {
                 return false;
             } else {
-                return tagVersion.isHigher(startVersion);
+                return tagVersion.equals(startVersion) || tagVersion.isHigher(startVersion);
             }
 
         }
