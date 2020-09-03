@@ -124,10 +124,10 @@ public class DslProjectsGeneratorTask extends DefaultTask {
 
         final List<String> settingsGradleKtsLines = Files.readAllLines(settingsGradleKts, StandardCharsets.UTF_8);
 
-        final String lineToAdd = "\ninclude(\"" + moduleName + "\")";
+        final String lineToAdd = "include(\"" + moduleName + "\")";
 
         if (!settingsGradleKtsLines.contains(lineToAdd)) {
-            Files.write(settingsGradleKts, lineToAdd.getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
+            Files.write(settingsGradleKts, ("\n" + lineToAdd).getBytes(StandardCharsets.UTF_8), StandardOpenOption.APPEND);
         }
     }
 
