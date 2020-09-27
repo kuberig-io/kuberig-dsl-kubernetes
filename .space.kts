@@ -1,9 +1,9 @@
 job("kuberig-dsl-kubernetes::new-upstream-version-job") {
-    startOn {
+//    startOn {
         // every hour
-        schedule { cron("0 * * * *") }
-        gitPush { enabled = false }
-    }
+//        schedule { cron("0 * * * *") }
+//        gitPush { enabled = false }
+//    }
 
     container("openjdk:11") {
         env["ORG_GRADLE_PROJECT_bintrayApiKey"] = Secrets("BINTRAY_API_KEY")
