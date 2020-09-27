@@ -53,7 +53,7 @@ public class GitCommitAndPushMissing extends DefaultTask {
                 gitCommitResult.assertNormalExitValue();
 
                 ExecAction gitPush = execActionFactory.newExecAction();
-                gitPush.commandLine("git", "push", "origin");
+                gitPush.commandLine("git", "push", "origin", "master");
                 ExecResult gitPushResult = gitPush.execute();
                 gitPushResult.assertNormalExitValue();
             } else {
