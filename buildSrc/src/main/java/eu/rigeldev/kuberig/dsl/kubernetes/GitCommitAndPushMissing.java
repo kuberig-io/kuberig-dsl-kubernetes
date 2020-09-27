@@ -18,6 +18,16 @@ public class GitCommitAndPushMissing extends DefaultTask {
     public void execute() {
         ExecActionFactory execActionFactory = this.getExecActionFactory();
 
+        ExecAction gitConfigUserEmail = execActionFactory.newExecAction();
+        gitConfigUserEmail.commandLine("git", "config", "--global", "user.email", "\"space.automation@rigel.dev\"");
+        ExecResult gitConfigUserEmailResult = gitConfigUserEmail.execute();
+        gitConfigUserEmailResult.assertNormalExitValue();
+
+        ExecAction gitConfigUserName = execActionFactory.newExecAction();
+        gitConfigUserName.commandLine("git", "config", "--global", "user.name", "\"Space Automation\"");
+        ExecResult gitConfigUserNameResult = gitConfigUserEmail.execute();
+        gitConfigUserNameResult.assertNormalExitValue();
+
         ExecAction gitAddAll = execActionFactory.newExecAction();
         gitAddAll.commandLine("git", "add", "--all")
                 .setStandardOutput(System.out);
