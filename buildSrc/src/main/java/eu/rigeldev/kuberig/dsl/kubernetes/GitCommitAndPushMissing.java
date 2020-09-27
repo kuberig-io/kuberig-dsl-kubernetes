@@ -20,7 +20,7 @@ public class GitCommitAndPushMissing extends DefaultTask {
         ExecActionFactory execActionFactory = this.getExecActionFactory();
 
         ExecAction gitConfigUserEmail = execActionFactory.newExecAction();
-        gitConfigUserEmail.commandLine("git", "config", "--global", "user.email", "\"space.automation@rigel.dev\"");
+        gitConfigUserEmail.commandLine("git", "config", "user.email", "\"space.automation@rigel.dev\"");
         gitConfigUserEmail.setStandardOutput(new LogOutputStream(this.getLogger(), LogLevel.INFO));
         gitConfigUserEmail.setErrorOutput(new LogOutputStream(this.getLogger(), LogLevel.ERROR));
         this.getLogger().info("Configuring git user.email");
@@ -28,7 +28,7 @@ public class GitCommitAndPushMissing extends DefaultTask {
         gitConfigUserEmailResult.assertNormalExitValue();
 
         ExecAction gitConfigUserName = execActionFactory.newExecAction();
-        gitConfigUserName.commandLine("git", "config", "--global", "user.name", "\"Space Automation\"");
+        gitConfigUserName.commandLine("git", "config", "user.name", "\"Space Automation\"");
         gitConfigUserName.setStandardOutput(new LogOutputStream(this.getLogger(), LogLevel.INFO));
         gitConfigUserName.setErrorOutput(new LogOutputStream(this.getLogger(), LogLevel.ERROR));
         this.getLogger().info("Configuring git user.name...");
