@@ -7,7 +7,6 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
-import org.gradle.api.tasks.options.Option;
 import org.json.JSONArray;
 
 import java.io.BufferedWriter;
@@ -18,21 +17,8 @@ import java.util.Set;
 
 public class ShowMissingFromJCenterTask extends DefaultTask {
 
-    private String bintrayUsername;
-    private String bintrayPassword;
-
     public ShowMissingFromJCenterTask() {
         this.setGroup("kuberig");
-    }
-
-    @Option(option = "bintrayUsername", description = "Username used to authenticate to the Bintray api.")
-    public void setBintrayUsername(String bintrayUsername) {
-        this.bintrayUsername = bintrayUsername;
-    }
-
-    @Option(option = "bintrayPassword", description = "Password used to authenticate to the Bintray api.")
-    public void setBintrayPassword(String bintrayPassword) {
-        this.bintrayPassword = bintrayPassword;
     }
 
     @TaskAction
@@ -40,20 +26,6 @@ public class ShowMissingFromJCenterTask extends DefaultTask {
         UnirestConfigurator.configureUnirest();
 
         final File statusFile = this.getProject().file("AVAILABILITY.MD");
-
-        final String username;
-        if (this.bintrayUsername != null) {
-            username = this.bintrayUsername;
-        } else {
-            username = (String)this.getProject().getProperties().get("bintrayUser");
-        }
-
-        final String password;
-        if (this.bintrayPassword != null) {
-            password = this.bintrayPassword;
-        } else {
-            password = (String)this.getProject().getProperties().get("bintrayApiKey");
-        }
 
         try (BufferedWriter writer = Files.newBufferedWriter(statusFile.toPath())) {
             writer.append("# Dependency Availability");
@@ -68,7 +40,6 @@ public class ShowMissingFromJCenterTask extends DefaultTask {
             for (Project subProject : subProjects) {
                 HttpResponse<JsonNode> jsonNodeHttpResponse = Unirest.get("https://api.bintray.com/packages/teyckmans/rigeldev-oss-maven/{module}")
                         .routeParam("module", subProject.getName())
-                        .basicAuth(username, password)
                         .asJson();
 
                 String x = "["+subProject.getName()+"](https://bintray.com/teyckmans/rigeldev-oss-maven/" + subProject.getName() + ")";

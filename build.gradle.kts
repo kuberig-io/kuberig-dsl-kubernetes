@@ -50,34 +50,31 @@ subprojects {
     val bintrayApiKey : String by subProject
     val bintrayUser : String by subProject
 
-    if (!eu.rigeldev.kuberig.dsl.kubernetes.JCenterUtils.exists(subProject.name, project.version.toString())) {
+    configure<PublishingExtension> {
 
-        configure<PublishingExtension> {
-
-            publications {
-                register(subProject.name, MavenPublication::class.java) {
-                    from(components["java"])
-                    artifact(sourcesJar.get())
-                }
+        publications {
+            register(subProject.name, MavenPublication::class.java) {
+                from(components["java"])
+                artifact(sourcesJar.get())
             }
-
         }
 
-        configure<BintrayExtension> {
+    }
+
+    configure<BintrayExtension> {
 
 
-            user = bintrayUser
-            key = bintrayApiKey
-            publish = true
+        user = bintrayUser
+        key = bintrayApiKey
+        publish = true
 
-            pkg(closureOf<BintrayExtension.PackageConfig> {
-                repo = "rigeldev-oss-maven"
-                name = subProject.name
-                setLicenses("Apache-2.0")
-                vcsUrl = "https://github.com/teyckmans/kuberig-dsl-kubernetes"
-            })
+        pkg(closureOf<BintrayExtension.PackageConfig> {
+            repo = "rigeldev-oss-maven"
+            name = subProject.name
+            setLicenses("Apache-2.0")
+            vcsUrl = "https://github.com/teyckmans/kuberig-dsl-kubernetes"
+        })
 
-            setPublications(subProject.name)
-        }
+        setPublications(subProject.name)
     }
 }
