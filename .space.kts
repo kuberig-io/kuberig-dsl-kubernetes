@@ -10,10 +10,10 @@ job("kuberig-dsl-kubernetes::new-upstream-version-job") {
     */
 
     container("gradle:6.6.1-jdk11") {
-        env["BINTRAY_API_KEY"] = Secrets("BINTRAY_API_KEY")
-        env["BINTRAY_USER"] = Secrets("BINTRAY_USER")
-        env["GRADLE_PUBLISH_KEY"] = Secrets("GRADLE_PUBLISH_KEY")
-        env["GRADLE_PUBLISH_SECRET"] = Secrets("GRADLE_PUBLISH_SECRET")
+        env["ORG_GRADLE_PROJECT_bintrayApiKey"] = Secrets("BINTRAY_API_KEY")
+        env["ORG_GRADLE_PROJECT_bintrayUser"] = Secrets("BINTRAY_USER")
+        env["ORG_GRADLE_PROJECT_gradle.publish.key"] = Secrets("GRADLE_PUBLISH_KEY")
+        env["ORG_GRADLE_PROJECT_gradle.publish.secret"] = Secrets("GRADLE_PUBLISH_SECRET")
 
         kotlinScript { api ->
             api.gradlew("generateDslProjects")
