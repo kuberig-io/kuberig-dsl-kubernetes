@@ -4,7 +4,6 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import org.apache.commons.io.FileUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
@@ -14,6 +13,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Set;
 
 public class ShowMissingFromJCenterTask extends DefaultTask {
@@ -77,9 +78,9 @@ public class ShowMissingFromJCenterTask extends DefaultTask {
         }
 
         final String newContent = memoryWriter.toString();
-        final String currentContent = FileUtils.readFileToString(statusFile, "UTF-8");
+        final String currentContent = Files.readString(statusFile.toPath(), StandardCharsets.UTF_8);
         if (!currentContent.equals(newContent)) {
-            FileUtils.writeStringToFile(statusFile, newContent, "UTF-8");
+            Files.writeString(statusFile.toPath(), newContent, StandardCharsets.UTF_8);
         }
     }
 
