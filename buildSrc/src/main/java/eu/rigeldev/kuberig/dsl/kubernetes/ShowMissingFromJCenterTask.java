@@ -4,6 +4,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.apache.commons.io.FileUtils;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.TaskAction;
@@ -12,7 +13,7 @@ import org.json.JSONArray;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.io.StringWriter;
 import java.util.Set;
 
 public class ShowMissingFromJCenterTask extends DefaultTask {
@@ -27,7 +28,9 @@ public class ShowMissingFromJCenterTask extends DefaultTask {
 
         final File statusFile = this.getProject().file("AVAILABILITY.MD");
 
-        try (BufferedWriter writer = Files.newBufferedWriter(statusFile.toPath())) {
+        final StringWriter memoryWriter = new StringWriter();
+
+        try (BufferedWriter writer = new BufferedWriter(memoryWriter)) {
             writer.append("# Dependency Availability");
             writer.newLine();
             writer.append("| kubernetes version | repositories | bintray package |");
@@ -73,6 +76,11 @@ public class ShowMissingFromJCenterTask extends DefaultTask {
             System.out.println();
         }
 
+        final String newContent = memoryWriter.toString();
+        final String currentContent = FileUtils.readFileToString(statusFile, "UTF-8");
+        if (!currentContent.equals(newContent)) {
+            FileUtils.writeStringToFile(statusFile, newContent, "UTF-8");
+        }
     }
 
 }
