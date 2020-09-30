@@ -3,6 +3,14 @@
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
 version: 2
+
+workflows:
+  build:
+    jobs:
+      - build:
+          context:
+            - kuberig-context
+
 jobs:
   build:
     docker:
