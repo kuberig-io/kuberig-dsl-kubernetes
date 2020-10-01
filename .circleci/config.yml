@@ -5,14 +5,23 @@
 version: 2.1
 
 workflows:
-  build:
+  upstream-and-availability-sync:
+    triggers:
+      - schedule:
+          # https://crontab.guru/#0_*/1_*_*_*
+          # every hour
+          cron: "0 */1 * * *"
+          filters:
+            branches:
+              only:
+                - circleci-project-setup
     jobs:
-      - build:
+      - upstream-and-availability-sync:
           context:
             - kuberig-context
 
 jobs:
-  build:
+  upstream-and-availability-sync:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:11-jdk
@@ -35,7 +44,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-{{ checksum "build.gradle.kts" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
@@ -44,7 +53,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
+          key: v1-dependencies-{{ checksum "build.gradle.kts" }}
 
-      # run tests!
-      - run: gradle test
+      # detect upstream versions and publish them to bintray
+      - run: gradle generateDslProjects publishMissing showMissingFromJCenter
