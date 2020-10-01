@@ -8,9 +8,9 @@ workflows:
   upstream-and-availability-sync:
     triggers:
       - schedule:
-          # https://crontab.guru/#0_*/1_*_*_*
+          # https://crontab.guru/#0_0-23_*_*_*
           # every hour
-          cron: "0 */1 * * *"
+          cron: "0 0-23 * * *"
           filters:
             branches:
               only:
