@@ -17,8 +17,7 @@ workflows:
                 - circleci-project-setup
     jobs:
       - upstream-and-availability-sync:
-          context:
-            - kuberig-context
+          context: kuberig-context
 
 jobs:
   upstream-and-availability-sync:
