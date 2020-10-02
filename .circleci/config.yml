@@ -55,7 +55,7 @@ jobs:
             git config user.name "circleci"
             git config user.email "circleci@rigel.dev"
             git add --all
-            git commit -m "upstream sync"
+            git commit -m "upstream sync [skip ci]"
             git push origin <<pipeline.git.branch>>
           else
             echo "No changes to commit";
