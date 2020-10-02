@@ -18,7 +18,7 @@ workflows:
           filters:
             branches:
               only:
-                - circleci-project-setup
+                - master
     jobs:
       - upstream-and-availability-sync:
           context: kuberig-context
