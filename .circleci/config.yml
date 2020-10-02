@@ -6,6 +6,10 @@ version: 2.1
 
 workflows:
   upstream-and-availability-sync:
+    jobs:
+      - upstream-and-availability-sync:
+          context: kuberig-context
+  upstream-and-availability-sync-scheduled:
     triggers:
       - schedule:
           # https://crontab.guru/#0_0-23_*_*_*
@@ -26,7 +30,7 @@ jobs:
     working_directory: ~/repo
     environment:
       JVM_OPTS: -Xmx3200m
-      TERM: dumb
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     steps:
       - add_ssh_keys:
           fingerprints:
@@ -36,16 +40,39 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "build.gradle.kts" }}
             - v1-dependencies-
-      - run: gradle dependencies
+      - restore_cache:
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - run: ./gradlew dependencies
       - save_cache:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle.kts" }}
       # detect upstream versions and publish them to bintray
       - run: |
-          gradle generateDslProjects publishMissing showMissingFromJCenter
-          git add --all
-          git config user.name "circleci"
-          git config user.email "circleci@rigel.dev"
+          ./gradlew generateDslProjects publishMissing showMissingFromJCenter $GRADLE_ARGS
           changed_files=$(git status --porcelain --untracked-files=no | wc -l)
-          [ $changed_files -gt 0 ] && git commit -m "upstream sync" && git push origin master
+          if [ $changed_files -gt 0 ]; then
+            git config user.name "circleci"
+            git config user.email "circleci@rigel.dev"
+            git add --all
+            git commit -m "upstream sync"
+            git push origin <<pipeline.git.branch>>
+          fi;
+          if [ $changed_files -eq 0 ]; then
+            echo "No changes to commit";
+          fi;
+      - save_cache:
+          paths:
+            - ~/.gradle/wrapper
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+          key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
+      - store_test_results:
+          path: build/test-results/test
+      - store_artifacts:
+          path: build/test-results/test
+          when: always
+      - store_artifacts:
+          path: build/libs
