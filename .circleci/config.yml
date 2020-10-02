@@ -22,40 +22,30 @@ workflows:
 jobs:
   upstream-and-availability-sync:
     docker:
-      # specify the version you desire here
       - image: circleci/openjdk:11-jdk
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
     working_directory: ~/repo
-
     environment:
-      # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-
     steps:
       - add_ssh_keys:
           fingerprints:
             - "d1:87:82:6c:c1:de:05:3e:e7:51:ec:34:3b:eb:a1:fd"
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "build.gradle.kts" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-
       - run: gradle dependencies
-
       - save_cache:
           paths:
             - ~/.gradle
           key: v1-dependencies-{{ checksum "build.gradle.kts" }}
-
       # detect upstream versions and publish them to bintray
-      - run: gradle generateDslProjects publishMissing showMissingFromJCenter
+      - run: |
+          gradle generateDslProjects publishMissing showMissingFromJCenter
+          git add --all
+          git config user.name "circleci"
+          git config user.email "circleci@rigel.dev"
+          changed_files=$(git status --porcelain --untracked-files=no | wc -l)
+          [ $changed_files -gt 0 ] && git commit -m "upstream sync" && git push origin master
