@@ -1,4 +1,4 @@
-[![KubeRig Logo](https://github.com/teyckmans/kuberig/blob/master/docs/images/website_logo_transparent_background.png)](https://github.com/teyckmans/kuberig)
+[![KubeRig Logo](https://github.com/teyckmans/kuberig/blob/master/docs/images/website_logo_transparent_background.png)](https://kuberig.io)
 
 [![teyckmans](https://circleci.com/gh/teyckmans/kuberig-dsl-kubernetes.svg?style=svg)](https://app.circleci.com/pipelines/github/teyckmans/kuberig-dsl-kubernetes)
 
