@@ -1,5 +1,5 @@
 plugins {
-    id("io.kuberig.dsl.generator" )
+    id("io.kuberig.dsl.generator") 
 }
 
 repositories {
