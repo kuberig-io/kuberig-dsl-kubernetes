@@ -9,8 +9,8 @@ buildscript {
     }
     dependencies {
         classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4")
-        classpath("eu.rigeldev.kuberig:kuberig-dsl-generator-gradle-plugin:0.0.21")
-        classpath("io.kuberig.dsl.vanilla.plugin:kuberig-dsl-vanilla-plugin:0.1.1")
+        classpath("io.kuberig:kuberig-dsl-generator-gradle-plugin:${version}")
+        classpath("io.kuberig.dsl.vanilla.plugin:kuberig-dsl-vanilla-plugin:0.1.4")
     }
 }
 
@@ -33,7 +33,7 @@ subprojects {
 
     val subProject = this
 
-    subProject.group = "eu.rigeldev.kuberig.dsl.kubernetes"
+    subProject.group = "io.kuberig.dsl.kubernetes"
     subProject.version = project.version
 
     repositories {
