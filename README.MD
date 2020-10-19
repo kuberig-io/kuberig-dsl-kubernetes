@@ -1,6 +1,6 @@
-[![KubeRig Logo](https://github.com/teyckmans/kuberig/blob/master/docs/images/website_logo_transparent_background.png)](https://kuberig.io)
+[![KubeRig Logo](https://github.com/kuberig-io/kuberig/blob/master/docs/images/website_logo_transparent_background.png)](https://kuberig.io)
 
-[![teyckmans](https://circleci.com/gh/teyckmans/kuberig-dsl-kubernetes.svg?style=svg)](https://app.circleci.com/pipelines/github/teyckmans/kuberig-dsl-kubernetes)
+[![kuberig-io](https://circleci.com/gh/kuberig-io/kuberig-dsl-kubernetes.svg?style=svg)](https://app.circleci.com/pipelines/github/kuberig-io/kuberig-dsl-kubernetes)
 
 # kuberig-dsl-kubernetes
 
@@ -14,4 +14,4 @@ It scans all tags starting from v1.14.10. Which is the lowest version number cur
 
 ## Versioning
 
-This project follows the version of the https://github.com/teyckmans/kuberig-dsl project.
+This project follows the version of the https://github.com/kuberig-io/kuberig-dsl project.
