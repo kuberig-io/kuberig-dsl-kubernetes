@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath("io.kuberig:kuberig-dsl-generator-gradle-plugin:${version}")
-        classpath("io.kuberig.dsl.vanilla.plugin:kuberig-dsl-vanilla-plugin:0.2.2")
+        classpath("io.kuberig.dsl.vanilla.plugin:kuberig-dsl-vanilla-plugin:0.2.4")
     }
 }
 
