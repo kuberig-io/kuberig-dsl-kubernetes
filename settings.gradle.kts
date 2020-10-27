@@ -1,5 +1,28 @@
 rootProject.name = "kuberig-dsl-kubernetes"
 
+pluginManagement {
+    val version : String by settings
+    val kuberigDslVanillaPluginVersion : String by settings
+
+    plugins {
+        id("io.kuberig.dsl.generator") version(version)
+    }
+
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "io.kuberig.dsl.vanilla.plugin") {
+                useModule("io.kuberig.dsl.vanilla.plugin:kuberig-dsl-vanilla-plugin:${kuberigDslVanillaPluginVersion}")
+            }
+        }
+    }
+
+    repositories {
+        jcenter()
+        maven("https://dl.bintray.com/teyckmans/rigeldev-oss-maven")
+        gradlePluginPortal()
+    }
+}
+
 include("kuberig-dsl-kubernetes-v1.14.10")
 include("kuberig-dsl-kubernetes-v1.15.0")
 include("kuberig-dsl-kubernetes-v1.15.1")
