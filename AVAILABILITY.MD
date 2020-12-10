@@ -66,5 +66,5 @@
 | v1.19.2 | rigeldev-oss-maven, jcenter | [kuberig-dsl-kubernetes-v1.19.2](https://bintray.com/teyckmans/rigeldev-oss-maven/io-kuberig-kuberig-dsl-kubernetes-v1.19.2) |
 | v1.19.3 | rigeldev-oss-maven, jcenter | [kuberig-dsl-kubernetes-v1.19.3](https://bintray.com/teyckmans/rigeldev-oss-maven/io-kuberig-kuberig-dsl-kubernetes-v1.19.3) |
 | v1.19.4 | rigeldev-oss-maven, jcenter | [kuberig-dsl-kubernetes-v1.19.4](https://bintray.com/teyckmans/rigeldev-oss-maven/io-kuberig-kuberig-dsl-kubernetes-v1.19.4) |
-| v1.19.5 | rigeldev-oss-maven | [kuberig-dsl-kubernetes-v1.19.5](https://bintray.com/teyckmans/rigeldev-oss-maven/io-kuberig-kuberig-dsl-kubernetes-v1.19.5) |
-| v1.20.0 | rigeldev-oss-maven | [kuberig-dsl-kubernetes-v1.20.0](https://bintray.com/teyckmans/rigeldev-oss-maven/io-kuberig-kuberig-dsl-kubernetes-v1.20.0) |
+| v1.19.5 | rigeldev-oss-maven, jcenter | [kuberig-dsl-kubernetes-v1.19.5](https://bintray.com/teyckmans/rigeldev-oss-maven/io-kuberig-kuberig-dsl-kubernetes-v1.19.5) |
+| v1.20.0 | rigeldev-oss-maven, jcenter | [kuberig-dsl-kubernetes-v1.20.0](https://bintray.com/teyckmans/rigeldev-oss-maven/io-kuberig-kuberig-dsl-kubernetes-v1.20.0) |
