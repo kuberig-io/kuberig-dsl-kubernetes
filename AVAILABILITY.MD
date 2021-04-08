@@ -83,3 +83,4 @@
 | v1.20.3 | rigeldev-oss-maven | [kuberig-dsl-kubernetes-v1.20.3](https://bintray.com/teyckmans/rigeldev-oss-maven/io-kuberig-kuberig-dsl-kubernetes-v1.20.3) |
 | v1.20.4 | rigeldev-oss-maven | [kuberig-dsl-kubernetes-v1.20.4](https://bintray.com/teyckmans/rigeldev-oss-maven/io-kuberig-kuberig-dsl-kubernetes-v1.20.4) |
 | v1.20.5 | rigeldev-oss-maven | [kuberig-dsl-kubernetes-v1.20.5](https://bintray.com/teyckmans/rigeldev-oss-maven/io-kuberig-kuberig-dsl-kubernetes-v1.20.5) |
+| v1.21.0 | rigeldev-oss-maven | [kuberig-dsl-kubernetes-v1.21.0](https://bintray.com/teyckmans/rigeldev-oss-maven/io-kuberig-kuberig-dsl-kubernetes-v1.21.0) |
